@@ -46,7 +46,6 @@ function postConfiguration {
     #link & enable service
     ln -s /pihotspot/pihotspot.service /usr/lib/systemd/system/
     systemctl enable pihotspot
-	systemctl start pihotspot
 }
 
 #Install & configure
