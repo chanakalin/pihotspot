@@ -263,14 +263,5 @@ if __name__ == "__main__":
     # loop forever
     while True:
         time.sleep(15)
-    # nmcli connection add type wifi ifname wlan0 con-name hotspot connection.autoconnect yes 
-    # 802-11-wireless.mode ap 802-11-wireless.ssid pi-ap wifi-sec.key-mgmt wpa-psk wifi-sec.psk "PASSWORD" 
-    # ipv4.method manual ipv4.addresses 192.168.1.1/24
-    # DNSMASQ
-    # /etc/dnsmasq.conf
-    # domain-needed
-    # bogus-priv
-    # dhcp-option=option:dns-server,1.1.1.1
-    # dhcp-authoritative
-    # dhcp-range=192.168.1.100,192.168.1.250,1h
+    #end
             
