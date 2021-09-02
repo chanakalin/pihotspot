@@ -54,6 +54,12 @@ password=PASSWORD
 **port** is the proxy port. **alloweddomains** is for configure domains which are allowed to access over the proxy.
 Make sure to deparate domains using **","** and all domains are in a single line.
 
+```
+[proxy]
+port=3128
+alloweddomains=google.com,*.google.com
+```
+
 eg:- google.com,*.google.com
 
 ### Example configurations file
