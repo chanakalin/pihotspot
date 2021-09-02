@@ -1,0 +1,13 @@
+dbus-python
+xmltodict
+pysqlite3
+sqlalchemy
+marshmallow-sqlalchemy
+werkzeug
+pygobject
+pyudev
+beautifulsoup4
+requests
+asn1crypto
+psutil
+cython

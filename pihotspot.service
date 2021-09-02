@@ -1,0 +1,17 @@
+[Unit]
+Description=PI Hotspot
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=30sec
+User=root
+WorkingDirectory=/pihotspot
+ExecStart=python3 pihotspot.py
+ExecStop=pkill -f pihotspot.py
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target
