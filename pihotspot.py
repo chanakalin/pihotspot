@@ -16,6 +16,8 @@ global config
 config = configparser.RawConfigParser()
 global wanip
 wanip = None
+global wandns
+wandns = []
 
 
 class IP():
@@ -73,6 +75,9 @@ def fetchWANIP():
                 actConIP4Iface = dbus.Interface(actConIP4Proxy, "org.freedesktop.DBus.Properties")
                 actConIP4Conf = actConIP4Iface.GetAll("org.freedesktop.NetworkManager.IP4Config")
                 _wanip = actConIP4Conf["AddressData"][0]["address"]
+                for dnsEntry in actConIP4Conf["NameserverData"]:
+                    wandns.append(dnsEntry["address"])
+                    logging.info(f"WAN DNS server fetched for {_wanIf} - {dnsEntry['address']}")
                 logging.info(f"WAN IP fetched for {_wanIf} - {_wanip}")
     except Exception as e:
         logging.error("Trying to fetch WAN IP error")
@@ -185,15 +190,21 @@ def configureProxy():
     """
     This method will configure 3proxy
     """
+    # config
     port = config.get("proxy", "port")
     allowedDomains = config.get("proxy", "alloweddomains")
+    listeningIP = config.get("hotspot", "ip")
+    # wan dns
+    proxyNSConfig = ""
+    for dnsServer in wandns:
+        proxyNSConfig = f"{proxyNSConfig}nserver {dnsServer}\n"
+    # 3proxy configurations
     proxyConfig = f"""#!/bin/3proxy
 #daemon
 pidfile /var/run/3proxy.pid
 chroot /usr/local/3proxy proxy proxy
 nscache 65536
-nserver 8.8.8.8
-nserver 8.8.4.4
+{proxyNSConfig}
 log /logs/3proxy-%y%m%d.log D
 rotate 1
 counter /count/3proxy.3cf
@@ -202,7 +213,7 @@ include /conf/bandlimiters
 auth iponly
 allow * * {allowedDomains}
 deny *
-proxy -e{wanip} -p{port}
+proxy -e{wanip} -i{listeningIP} -p{port}
 """
     confFile = open("/etc/3proxy/3proxy.cfg", "w")
     confFile.write(proxyConfig)
@@ -263,5 +274,5 @@ if __name__ == "__main__":
     # loop forever
     while True:
         time.sleep(15)
-    #end
+    # end
             
