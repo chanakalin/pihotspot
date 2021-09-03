@@ -37,7 +37,7 @@ Hotspot (access point) configurations are as follows.
 | dhcpstart | Start IP of the DHCP pool |
 | dhcpend | End IP of the DHCP pool |
 | ssid | WiFi SSID |
-| password | WiFi hotspot (access point) password |
+| password | WiFi hotspot (access point) password ***(minimum 8 characters)*** |
 
 
 ```
